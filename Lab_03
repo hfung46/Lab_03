@@ -67,7 +67,7 @@ const int ci_Left_Line_Tracker_LED = 12;
 
 bool Left_Light;
 bool Middle_Light;
-bool RIght_Light;
+bool Right_Light;
 
 //constants
 
@@ -297,24 +297,24 @@ void loop()
        //500-1500 = reverse
 
        /***************************************************************************************/
-         Add line tracking code here. 
-         Adjust motor speed according to information from line tracking sensors and 
-         possibly encoder counts.
+         //Add line tracking code here. 
+        //Adjust motor speed according to information from line tracking sensors and 
+         //possibly encoder counts.
 
-        robot is to stay on white lines, all scenarios are to be coded i think
+       // robot is to stay on white lines, all scenarios are to be coded i think
         
-        20 measurements are taken and average is set as :
-        
-        
+        //20 measurements are taken and average is set as :
         
         
-        ui_Left_Line_Tracker_Dark
-        ui_Middle_Line_Tracker_Dark
-        ui_Right_Line_Tracker_Dark
         
-        ui_Left_Line_Tracker_Light
-        ui_Middle_Line_Tracker_Light
-        ui_Right_Line_Tracker_Light
+        
+       // ui_Left_Line_Tracker_Dark
+        //ui_Middle_Line_Tracker_Dark
+        //ui_Right_Line_Tracker_Dark
+        
+       // ui_Left_Line_Tracker_Light
+       // ui_Middle_Line_Tracker_Light
+       // ui_Right_Line_Tracker_Light
         
         
         /////////////////////////////////////////////////     constrains input in event of outliers
