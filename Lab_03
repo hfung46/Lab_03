@@ -349,37 +349,44 @@ void loop()
         
                                                              //all light
         if(Left_Light && Middle_Light && Right_Light){
-        
+        ui_Left_Motor_Speed=1500;
+        ui_Right_Motor_Speed=1500;
         }
         
                                                              //middle light
         if(!Left_Light && Middle_Light && !Right_Light){
-        
+        ui_Left_Motor_Speed=1610;
+        ui_Right_Motor_Speed=1610;
         }
         
                                                              //middle and right light
         if(!Left_Light && Middle_Light && Right_Light){
-        
+        ui_Left_Motor_Speed=1610;
+        ui_Right_Motor_Speed=1390;
         }
         
                                                              //right light
         if(!Left_Light && !Middle_Light && Right_Light){
-        
+        ui_Left_Motor_Speed=1610;
+        ui_Right_Motor_Speed=1390;
         }
         
                                                              //middle and left light
         if(Left_Light && Middle_Light && !Right_Light){
-        
+        ui_Left_Motor_Speed=1390;
+        ui_Right_Motor_Speed=1610;
         }
         
                                                              //left light
         if(Left_Light && !Middle_Light && !Right_Light){
-        
+        ui_Left_Motor_Speed=1390;
+        ui_Right_Motor_Speed=1610;
         }
         
                                                              //no light
         if(!Left_Light && !Middle_Light && !Right_Light){
-        
+        ui_Left_Motor_Speed=1610;
+        ui_Right_Motor_Speed=1610;
         }
         
         /////////////////////////////////////////////////////////////////////////////////////
