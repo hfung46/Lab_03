@@ -328,7 +328,7 @@ void loop()
           Serial.print("Left: ");
           if (ui_Left_Line_Tracker_Data < (ui_Left_Line_Tracker_Dark - ui_Line_Tracker_Tolerance)) {
             Left_Light = true;
-            Serial.print("Light  ");
+            Serial.print("          Light  ");
           }
           else {
             Left_Light = false;
@@ -338,18 +338,18 @@ void loop()
           if (ui_Middle_Line_Tracker_Data < (ui_Middle_Line_Tracker_Dark - ui_Line_Tracker_Tolerance)) {
             Middle_Light = true;                                                                               // Sets boolean, if on
             Serial.print("Light  ");                                                                           // line gets declared
-          }                                                                                                      // as true
+          }                                                                                                    // as true
           else {
             Middle_Light = false;
             Serial.print("Dark   ");
           }
           Serial.print("Right: ");
-          if (ui_Middle_Line_Tracker_Data < (ui_Middle_Line_Tracker_Dark - ui_Line_Tracker_Tolerance)) {
-            Middle_Light = true;
+          if (ui_Right_Line_Tracker_Data < (ui_Right_Line_Tracker_Dark - ui_Line_Tracker_Tolerance)) {
+            Right_Light = true;
             Serial.println("Light  ");
           }
           else {
-            Middle_Light = false;
+            Right_Light = false;
             Serial.println("Dark   ");
           }
 
