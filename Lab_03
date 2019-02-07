@@ -324,25 +324,38 @@ void loop()
         ui_Right_Line_Tracker_Data=constrain( ui_Right_Line_Tracker_Data,ui_Right_Line_Tracker_Light,ui_Right_Line_Tracker_Dark);
         
         ////////////////////////////////////////////////////////////////////////////////////////////////////
-        
-        if(ui_Left_Line_Tracker_Data<(ui_Left_Line_Tracker_Light+ui_Line_Tracker_Tolerance)){
+        Serial.print("Left: ");
+        if(ui_Left_Line_Tracker_Data<(ui_Left_Line_Tracker_Dark-ui_Line_Tracker_Tolerance)){
             Left_Light=true;
+            Serial.print("Light  ");
         }
         else{
             Left_Light=false;
+            Serial.print("Dark   ");
         }
-        
-        if(ui_Left_Line_Tracker_Data<(ui_Left_Line_Tracker_Light+ui_Line_Tracker_Tolerance)){                  // Sets boolean, if on 
-            Left_Light=true;                                                                                   // line gets declared 
+        Serial.print("Middle: ");
+        if(ui_Middle_Line_Tracker_Data<(ui_Middle_Line_Tracker_Dark-ui_Line_Tracker_Tolerance)){                  // Sets boolean, if on 
+            Middle_Light=true;   
+            Serial.print("Light  ");                                                                           // line gets declared 
         }                                                                                                      // as true
         else{
-            Left_Light=false;
+            Middle_Light=false;
+            Serial.print("Dark   ");
         }
-        if(ui_Left_Line_Tracker_Data<(ui_Left_Line_Tracker_Light+ui_Line_Tracker_Tolerance)){
-            Left_Light=true;
+        Serial.print("Right: ");
+        if(ui_Middle_Line_Tracker_Data<(ui_Middle_Line_Tracker_Dark-ui_Line_Tracker_Tolerance)){
+            Middle_Light=true;
+            Serial.print("Light  ");
         }
         else{
-            Left_Light=false;
+            Middle_Light=false;
+            Serial.print("Dark   ");
+        }
+        
+        
+        Serial.print("Light  ");
+        
+        Serial.print("Dark   ");
         }
         
         ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -350,7 +363,7 @@ void loop()
                                                              //all light
         if(Left_Light && Middle_Light && Right_Light){
         ui_Left_Motor_Speed=1500;
-        ui_Right_Motor_Speed=1500;
+        ui_Middle_Motor_Speed=1500;
         }
         
                                                              //middle light
@@ -390,7 +403,7 @@ void loop()
         }
         
         /////////////////////////////////////////////////////////////////////////////////////
-        
+        /*
         
         if middle is light then always straight?
         if middle and left are light then turn left
@@ -407,7 +420,7 @@ void loop()
         middle:924              middle:485
         right:951                right:590
         
-       
+       */
          
        /*************************************************************************************/
 
@@ -645,7 +658,7 @@ void readLineTrackers()
   { 
     CharliePlexM::Write(ci_Right_Line_Tracker_LED, LOW);
   }
-
+/*
 #ifdef DEBUG_LINE_TRACKERS
   Serial.print("Trackers: Left = ");
   Serial.print(ui_Left_Line_Tracker_Data,DEC);
@@ -654,6 +667,7 @@ void readLineTrackers()
   Serial.print(", Right = ");
   Serial.println(ui_Right_Line_Tracker_Data,DEC);
 #endif
+*/
 
 }
 
