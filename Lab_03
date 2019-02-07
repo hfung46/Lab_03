@@ -1,5 +1,5 @@
 /*
-try
+
 
  MSE 2202 MSEBot base code for Labs 3 and 4
  Language: Arduino
@@ -64,6 +64,10 @@ const int ci_Indicator_LED = 4;
 const int ci_Right_Line_Tracker_LED = 6;
 const int ci_Middle_Line_Tracker_LED = 9;
 const int ci_Left_Line_Tracker_LED = 12;
+
+bool Left_Light;
+bool Middle_Light;
+bool RIght_Light;
 
 //constants
 
@@ -287,14 +291,116 @@ void loop()
        // set motor speeds
         ui_Left_Motor_Speed = constrain(ui_Motors_Speed + ui_Left_Motor_Offset, 1600, 2100);
         ui_Right_Motor_Speed = constrain(ui_Motors_Speed + ui_Right_Motor_Offset, 1600, 2100);
+        
+       //1500 = stop
+       //1500 - 2000 = forward
+       //500-1500 = reverse
 
-       /***************************************************************************************
+       /***************************************************************************************/
          Add line tracking code here. 
          Adjust motor speed according to information from line tracking sensors and 
          possibly encoder counts.
 
         robot is to stay on white lines, all scenarios are to be coded i think
         
+        20 measurements are taken and average is set as :
+        
+        
+        
+        
+        ui_Left_Line_Tracker_Dark
+        ui_Middle_Line_Tracker_Dark
+        ui_Right_Line_Tracker_Dark
+        
+        ui_Left_Line_Tracker_Light
+        ui_Middle_Line_Tracker_Light
+        ui_Right_Line_Tracker_Light
+        
+        
+        /////////////////////////////////////////////////     constrains input in event of outliers
+        
+        ui_Left_Line_Tracker_Data=constrain( ui_Left_Line_Tracker_Data,ui_Left_Line_Tracker_Light,ui_Left_Line_Tracker_Dark);
+        ui_Middle_Line_Tracker_Data=constrain( ui_Middle_Line_Tracker_Data,ui_Middle_Line_Tracker_Light,ui_Middle_Line_Tracker_Dark);
+        ui_Right_Line_Tracker_Data=constrain( ui_Right_Line_Tracker_Data,ui_Right_Line_Tracker_Light,ui_Right_Line_Tracker_Dark);
+        
+        ////////////////////////////////////////////////////////////////////////////////////////////////////
+        
+        if(ui_Left_Line_Tracker_Data<(ui_Left_Line_Tracker_Light+ui_Line_Tracker_Tolerance)){
+            Left_Light=true;
+        }
+        else{
+            Left_Light=false;
+        }
+        
+        if(ui_Left_Line_Tracker_Data<(ui_Left_Line_Tracker_Light+ui_Line_Tracker_Tolerance)){                  // Sets boolean, if on 
+            Left_Light=true;                                                                                   // line gets declared 
+        }                                                                                                      // as true
+        else{
+            Left_Light=false;
+        }
+        if(ui_Left_Line_Tracker_Data<(ui_Left_Line_Tracker_Light+ui_Line_Tracker_Tolerance)){
+            Left_Light=true;
+        }
+        else{
+            Left_Light=false;
+        }
+        
+        ////////////////////////////////////////////////////////////////////////////////////////////////////
+        
+                                                             //all light
+        if(Left_Light && Middle_Light && Right_Light){
+        
+        }
+        
+                                                             //middle light
+        if(!Left_Light && Middle_Light && !Right_Light){
+        
+        }
+        
+                                                             //middle and right light
+        if(!Left_Light && Middle_Light && Right_Light){
+        
+        }
+        
+                                                             //right light
+        if(!Left_Light && !Middle_Light && Right_Light){
+        
+        }
+        
+                                                             //middle and left light
+        if(Left_Light && Middle_Light && !Right_Light){
+        
+        }
+        
+                                                             //left light
+        if(Left_Light && !Middle_Light && !Right_Light){
+        
+        }
+        
+                                                             //no light
+        if(!Left_Light && !Middle_Light && !Right_Light){
+        
+        }
+        
+        /////////////////////////////////////////////////////////////////////////////////////
+        
+        
+        if middle is light then always straight?
+        if middle and left are light then turn left
+        vice versa
+        
+        if all three are light then continue straight
+        if left and middle are light then turn left
+        if right and middle are light then turn right
+        
+        when input changes print once
+        
+        norm                     light
+        left:973                  left: 755
+        middle:924              middle:485
+        right:951                right:590
+        
+       
          
        /*************************************************************************************/
 
