@@ -65,7 +65,6 @@ const int ci_Right_Line_Tracker_LED = 6;
 const int ci_Middle_Line_Tracker_LED = 9;
 const int ci_Left_Line_Tracker_LED = 12;
 
-int reverse = 1420;
 
 bool Left_Light;
 bool Middle_Light;
@@ -104,6 +103,8 @@ const int ci_Line_Tracker_Tolerance = 50;   // May need to adjust this
 const int ci_Motor_Calibration_Cycles = 3;
 const int ci_Motor_Calibration_Time = 5000;
 
+int Last_Mode;
+
 //variables
 byte b_LowByte;
 byte b_HighByte;
@@ -111,11 +112,13 @@ unsigned long ul_Echo_Time;
 unsigned int ui_Left_Line_Tracker_Data;
 unsigned int ui_Middle_Line_Tracker_Data;
 unsigned int ui_Right_Line_Tracker_Data;
-unsigned int ui_Motors_Speed = 1600;        // Default run speed
+unsigned int ui_Motors_Speed = 1650;        // Default run speed
 unsigned int ui_Left_Motor_Speed;
 unsigned int ui_Right_Motor_Speed;
 long l_Left_Motor_Position;
 long l_Right_Motor_Position;
+
+int reverse = 1500-(ui_Motors_Speed-1500);
 
 unsigned long ul_3_Second_timer = 0;
 unsigned long ul_Display_Time;
@@ -328,31 +331,51 @@ void loop()
             Serial.println("Stop");
             ui_Left_Motor_Speed = 1500;
             ui_Right_Motor_Speed = 1500;
+            Last_Mode=3;
           }
 
           //middle light
           else if (!(ui_Left_Line_Tracker_Data < (ui_Left_Line_Tracker_Dark - ui_Line_Tracker_Tolerance)) && (ui_Middle_Line_Tracker_Data < (ui_Middle_Line_Tracker_Dark - ui_Line_Tracker_Tolerance)) && !(ui_Right_Line_Tracker_Data < (ui_Right_Line_Tracker_Dark - ui_Line_Tracker_Tolerance))) {
             Serial.println("Straight");
+            Last_Mode=3;
           }
 
           //middle and right light
           else if (!(ui_Left_Line_Tracker_Data < (ui_Left_Line_Tracker_Dark - ui_Line_Tracker_Tolerance)) && (ui_Right_Line_Tracker_Data < (ui_Right_Line_Tracker_Dark - ui_Line_Tracker_Tolerance))) {
             Serial.println("Turn Right");
-            ui_Left_Motor_Speed = ui_Left_Motor_Speed+(ui_Motors_Speed-1500);
-            ui_Right_Motor_Speed = reverse;
+            ui_Left_Motor_Speed = 1500+((ui_Left_Motor_Speed-1500));
+            ui_Right_Motor_Speed = 1500-((1500-reverse)/2)-ui_Right_Motor_Offset;
+            Last_Mode=1;
           }          
 
           //middle and left light
           else if ((ui_Left_Line_Tracker_Data < (ui_Left_Line_Tracker_Dark - ui_Line_Tracker_Tolerance)) && !(ui_Right_Line_Tracker_Data < (ui_Right_Line_Tracker_Dark - ui_Line_Tracker_Tolerance))) {
             Serial.println("Turn Left");
-            ui_Right_Motor_Speed = ui_Right_Motor_Speed+(ui_Motors_Speed-1500);
-            ui_Left_Motor_Speed = reverse;
+            ui_Right_Motor_Speed = 1500+((ui_Right_Motor_Speed-1500));
+            ui_Left_Motor_Speed = 1500-((1500-reverse)/2)-ui_Left_Motor_Offset;
+            Last_Mode=2;
           }
           
           
           //no light
           else if (!(ui_Left_Line_Tracker_Data < (ui_Left_Line_Tracker_Dark - ui_Line_Tracker_Tolerance)) && !(ui_Middle_Line_Tracker_Data < (ui_Middle_Line_Tracker_Dark - ui_Line_Tracker_Tolerance)) && !(ui_Right_Line_Tracker_Data < (ui_Right_Line_Tracker_Dark - ui_Line_Tracker_Tolerance))) {
-            Serial.println("Straight");
+            switch(Last_Mode){
+              case(1):{
+                ui_Left_Motor_Speed = 1500+((ui_Left_Motor_Speed-1500));
+                ui_Right_Motor_Speed = 1500-((1500-reverse)/2)-ui_Right_Motor_Offset;
+                break;
+              }
+              case(2):{
+                ui_Right_Motor_Speed = 1500+((ui_Right_Motor_Speed-1500));
+                ui_Left_Motor_Speed = 1500-((1500-reverse)/2)-ui_Left_Motor_Offset;
+                break;
+              }
+              case(3):{ 
+                ui_Left_Motor_Speed = 1500;
+                ui_Right_Motor_Speed = 1500;
+                break;
+              }
+            }
           }
           
           if (bt_Motors_Enabled)
@@ -502,12 +525,12 @@ void loop()
             {
               // May have to update this if different calibration time is used
               ui_Right_Motor_Offset = 0;
-              ui_Left_Motor_Offset = (l_Left_Motor_Position - l_Right_Motor_Position) / 6;
+              ui_Left_Motor_Offset = (l_Left_Motor_Position - l_Right_Motor_Position) /8;
             }
             else
             {
               // May have to update this if different calibration time is used
-              ui_Right_Motor_Offset = (l_Right_Motor_Position - l_Left_Motor_Position) / 6;
+              ui_Right_Motor_Offset = (l_Right_Motor_Position - l_Left_Motor_Position) /8;
               ui_Left_Motor_Offset = 0;
             }
 
